@@ -1,0 +1,53 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% block content %}
+{% include "header.html" %}
+
+<!-- Page Header -->
+<header
+  class="masthead"
+  style="background-image: url('../static/assets/img/register-bg.jpg')"
+>
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="page-heading">
+          <h1>Register</h1>
+          <span class="subheading">Start Contributing to the Blog!</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="mb-4">
+  <div class="container">
+<!--    <form action="{{ url_for('register') }}" method="POST">-->
+<!--      <div class="row justify-content-center">-->
+<!--        <div class="col-lg-8 col-md-10 mx-auto">-->
+<!--          <div class="form-group">-->
+<!--            {{ form.email.label(class="col-form-label") }}-->
+<!--            {{ form.email(class="form-control", size=30) }}-->
+<!--          </div>-->
+<!--          <div class="form-group">-->
+<!--            {{ form.password.label(class="col-form-label") }}-->
+<!--            {{ form.password(class="form-control", size=30) }}-->
+<!--          </div>-->
+<!--          <div class="form-group">-->
+<!--            {{ form.name.label(class="col-form-label") }}-->
+<!--            {{ form.name(class="form-control", size=30) }}-->
+<!--          </div>-->
+<!--          <div class="form-group">-->
+<!--            {{ form.submit(class="btn btn-primary submit") }}-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </form>-->
+    <form action="{{ url_for('register') }}" method="POST">
+    {{ render_form(form) }}
+    </form>
+
+  </div>
+</main>
+
+
+{% include "footer.html" %} {% endblock %}
