@@ -26,7 +26,7 @@ class RegisterForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = StringField(label='E-mail', validators=[DataRequired(), Email()])
     password = PasswordField(label='Password', validators=[DataRequired(), Length(min=8,                                                                 message=" Password must be at least 8 characters long.")])
-    submit = SubmitField(label="Register")
+    submit = SubmitField(label="Login")
 
 
 class CommentForm(FlaskForm):
