@@ -11,6 +11,8 @@ from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
 import logging
+from dotenv import load_dotenv
+import os
 
 def _url_has_allowed_host_and_scheme(url, allowed_hosts, require_https=False):
     if url is not None:
@@ -38,15 +40,14 @@ def admin_only(function):
             return jsonify(error = "Unauthorized access"), 401
     return wrapper_function
 
-
+load_dotenv()
 app = Flask(__name__)
 ckeditor = CKEditor(app)
 bootstrap = Bootstrap5(app)
 # sceret_key = token_hex()
 # print(f"This is this session's secret key: {sceret_key}")
-app.secret_key = 'my-fixed-secret-key'
 
-app.config['SECRET_KEY'] = 'secret-key-goes-here'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
@@ -69,7 +70,7 @@ gravatar = Gravatar(app,
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
@@ -133,11 +134,6 @@ with app.app_context():
     # db.session.commit()
 
 # with app.app_context():
-#     new_user = User(email="test@example.com", password="hashed_password", name="Test User")
-#     db.session.add(new_user)
-#     db.session.commit()
-#
-# with app.app_context():
 #     user = User.query.first()  # Retrieve an existing user from the database
 #
 # if user:
@@ -164,7 +160,8 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         app.logger.info("Form successfully submitted.")
-        check_for_user = db.session.execute(db.select(User).where(User.email == form.email.data)).scalar_one_or_none()
+        # check_for_user = db.session.execute(db.select(User).where(User.email == form.email.data)).scalar_one_or_none()
+        check_for_user = User.query.filter_by(email=form.email.data).first()
         if check_for_user:
             flash("You are already registered in our database. Please log in.")
             email = form.email.data
@@ -347,4 +344,4 @@ def contact():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5002)
+    app.run(debug=False, port=5002)

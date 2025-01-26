@@ -12,6 +12,9 @@ Icon
 # and thumbnails
 ._*
 
+# Ignore virtual environments
+.env/
+
 # People have already very handy .gitignore templates for Python projects.
 # Below is this one here: https://github.com/github/gitignore/blob/main/Python.gitignore
 # Byte-compiled / optimized / DLL files
